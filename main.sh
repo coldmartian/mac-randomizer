@@ -6,7 +6,6 @@ BLUE='\033[0;94m'       # Bright Blue
 CYAN='\033[0;96m'       # Bright Cyan
 YELLOW='\033[0;93m'     # Bright Yellow
 RED='\033[0;91m'        # Bright Red
-PURPLE='\033[0;95m'     # Bright Purple
 NC='\033[0m'            # No Color - Resets the color back to default
 
 check_root() {
@@ -47,7 +46,7 @@ main() {
   check_dependency
   echo -e "${YELLOW}Creating config file (${CYAN}/etc/NetworkManager/conf.d/wifi_rand_mac.conf${YELLOW})....${NC}\n"
   echo -e "${GREEN}Writing the settings to the config file....${NC}\n"
-  cat > /etc/NetworkManager/conf.d/wifi_rand_mac.conf << EOF
+  cat > /etc/NetworkManager/conf.d/rand_mac.conf << EOF
 [device-mac-randomization]
 wifi.scan-rand-mac-address=yes
 [connection-mac-randomization]
@@ -55,7 +54,7 @@ ethernet.cloned-mac-address=random
 wifi.cloned-mac-address=random
 EOF
   restart_network_manager
-  echo -e "${GREEN}The script has executed successfully. Your MAC address will change every time you reconnect to a network, making your device appear as a new one each time!${NC}"
+  echo -e "${GREEN}The script has executed successfully. Your MAC address will change every time you reconnect to a network, this will reduce the probability of your device getting fingerprinted. However, MAC address randomization alone is not enough, your device may still get fingerprinted using DHCP. See RFC-7844: https://www.rfc-editor.org/rfc/rfc7844${NC}"
 }
 
 main
